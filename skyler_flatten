@@ -1,0 +1,42 @@
+from array import array
+import unittest
+
+
+def flatten_array(input_array):
+    """
+    This function flattens an array.
+    Args:
+        input_array (array): nested arrays of integers
+    Returns:
+        input_array (array): flattened array of integers from the original array
+    """
+    final_array = array('i', [])
+
+    # Check if there are any nested values
+    while any([isinstance(element, list) for element in input_array]):
+        flattened_array = []
+        for element in input_array:
+            if isinstance(element, int):
+                flattened_array.append(element)
+            elif isinstance(element, list):
+                flattened_array.extend(element)
+        input_array = flattened_array
+
+    # Change list to final array
+    for integer in input_array:
+        final_array.append(integer)
+
+    return final_array
+
+
+class TestFlattenMethod(unittest.TestCase):
+    def test_flatten_array(self):
+        """ Test if it returns a flattened array when given
+        Nested arrays """
+        test_input = [[1, 2, [3]], 4]
+        expected_result = array('i', [1, 2, 3, 4])
+        self.assertEqual(flatten_array(test_input), expected_result)
+
+
+if __name__ == '__main__':
+    unittest.main()
